@@ -13,28 +13,59 @@ library_df = pd.read_sql_query("SELECT * from library", conn)
 library_page = html.Div([
     dash_table.DataTable(
         id='library-datatable',
+        fixed_rows={'headers': True},
+        style_table={
+        'height': 'auto',
+        },
         style_cell={
         'whiteSpace': 'normal',
+        'border': '1px solid grey' 
         },
         style_cell_conditional=[
         {'if': {'column_id': 'index'},
-         'width': '6%'},
+         'width': '6%',
+         'textAlign': 'center'},
+        {'if': {'column_id': 'Author'},
+         'textAlign': 'left'},
+        {'if': {'column_id': 'Title'},
+         'textAlign': 'left'},
         {'if': {'column_id': 'Pages'},
-         'width': '6%'},
-        {'if': {'column_id': 'Review'},
-         'width': '7%'},
-        {'if': {'column_id': 'Language'},
-         'width': '8%'},
+         'width': '6%',
+         'textAlign': 'center'},
         {'if': {'column_id': 'Publisher'},
-         'width': '10%'},
+         'width': '10%',
+         'textAlign': 'center'},
+        {'if': {'column_id': 'Language'},
+         'width': '8%',
+         'textAlign': 'center'},
+        {'if': {'column_id': 'ISBN-13'},
+         'textAlign': 'center'},
         {'if': {'column_id': 'Genre 1'},
-         'width': '10%'},
-        
+         'width': '10%',
+         'textAlign': 'center'},
+        {'if': {'column_id': 'Genre 2'},
+         'textAlign': 'center'},
+        {'if': {'column_id': 'Genre 3'},
+         'textAlign': 'center'},
+        {'if': {'column_id': 'Review'},
+         'width': '7%',
+         'textAlign': 'center'},
         ],
+        style_data_conditional=[
+        {
+            'if': {'row_index': 'odd'},
+            'backgroundColor': 'rgb(248, 248, 248)'
+        }
+        ],
+        style_header={
+        'backgroundColor': 'white',
+        'fontWeight': 'bold'
+        },
         columns=[
             {"name": i, "id": i} for i in library_df.columns
         ],
         data=library_df.to_dict('records'),
+        
         filter_action="native",
         sort_action="native",
         sort_mode="multi",
@@ -44,5 +75,9 @@ library_page = html.Div([
         page_action="native",
         page_current= 0,
         page_size= 10,
+        css=[{'selector': '.row', 'rule': 'margin: 0'}]
     ),
-], id="library-div")
+], style={"height": "100vh",
+           "overflow": "hidden",
+           "display": "flex",
+           "flex-flow": "column"}, id="library-div")
