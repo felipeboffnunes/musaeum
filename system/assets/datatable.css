@@ -1,8 +1,8 @@
-.row.row-0 {
+.row.row-0 .dt-table-container__row-0{
     display:block !important
 }
 
-.row.row-1 {
+.row.row-1 .dt-table-container__row-1{
     display:block !important;
     overflow-y: scroll !important;
     overflow-x: hidden !important
@@ -10,11 +10,5 @@
 
 .cell-table {
     display:block !important;
-}
-
-.dt-table-container__row-1 {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    width: 100vw;
 }
 
