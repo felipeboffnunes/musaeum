@@ -12,3 +12,7 @@
     display:block !important;
 }
 
+.dt-table-container__row {
+    overflow-y: scroll;
+}
+
