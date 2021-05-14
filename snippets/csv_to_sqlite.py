@@ -17,8 +17,8 @@ LAYOUT = {
     "LIB" : "(author, title, pages, publisher, language, isbn-13, genre-1, genre-2, genre-3, rating)",
 }
 
-CSV_PATH = f"../data/csv/{CSV_NAME[TARGET]}"
-SQ_PATH = f"../data/sqlite/{DB_NAME[TARGET]}.db"
+CSV_PATH = f"../system/data/csv/{CSV_NAME[TARGET]}"
+SQ_PATH = f"../system/data/sqlite/{DB_NAME[TARGET]}.db"
 
 cnx = sqlite3.connect(SQ_PATH)
 df = pandas.read_csv(CSV_PATH)
