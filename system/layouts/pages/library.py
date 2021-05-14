@@ -16,6 +16,7 @@ library_page = html.Div([
         fixed_rows={'headers': True},
         style_table={
         'height': 'auto',
+        'overflowY': 'auto'
         },
         style_cell={
         'whiteSpace': 'normal',
@@ -48,7 +49,7 @@ library_page = html.Div([
         {'if': {'column_id': 'Genre 3'},
          'textAlign': 'center'},
         {'if': {'column_id': 'Review'},
-         'width': '7%',
+         'width': '6%',
          'textAlign': 'center'},
         ],
         style_data_conditional=[

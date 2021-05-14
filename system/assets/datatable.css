@@ -4,6 +4,8 @@
 
 .row.row-1 {
     display:block !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important
 }
 
 .cell-table {
