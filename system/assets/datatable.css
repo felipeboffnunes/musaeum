@@ -3,15 +3,17 @@
 }
 
 .row.row-1 {
-    display:block !important
+    display:block !important;
 }
-
-/* tooltip size */
-.dash-table-tooltip {
-    max-width: 500px !important;
-}
-
 
 .cell-table {
-    display:block !important
+    display:block !important;
+}
+
+#library-datatable {
+    height:100vh;
+}
+
+.dash-spreadsheet.dash-freeze-top {
+    max-height: 100vh;
 }
