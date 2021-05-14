@@ -78,6 +78,6 @@ library_page = html.Div([
         css=[{'selector': '.row', 'rule': 'margin: 0'}]
     ),
 ], style={"height": "100vh",
-           "overflow": "hidden",
-           "display": "flex",
-           "flex-flow": "column"}, id="library-div")
+          "overflow": "hidden",
+          "display": "flex",
+          "flex-flow": "column"}, id="library-div")
