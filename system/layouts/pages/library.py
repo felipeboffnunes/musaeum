@@ -16,7 +16,8 @@ library_page = html.Div([
         fixed_rows={'headers': True},
         style_table={
         'height': 'auto',
-        'overflowY': 'auto'
+        'overflowY': 'auto',
+        'overflowX': 'hidden'
         },
         style_cell={
         'whiteSpace': 'normal',
