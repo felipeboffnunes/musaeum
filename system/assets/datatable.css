@@ -10,10 +10,3 @@
     display:block !important;
 }
 
-#library-datatable {
-    height:100vh;
-}
-
-.dash-spreadsheet.dash-freeze-top {
-    max-height: 100vh;
-}
