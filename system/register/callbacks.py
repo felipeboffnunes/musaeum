@@ -1,8 +1,11 @@
+
 # Third party imports
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Output, Input, State
+# Local application/library specific imports
+from system.layouts.pages.pages_index import pages
 
 def register_callbacks(app):
 
@@ -11,11 +14,9 @@ def register_callbacks(app):
     @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
     def render_page_content(pathname):
         if pathname == "/":
-            return html.P("This is the content of the home page!")
-        elif pathname == "/page-1":
-            return html.P("This is the content of page 1. Yay!")
-        elif pathname == "/page-2":
-            return html.P("Oh cool, this is page 2!")
+            return pages["LIB"]
+        elif pathname == "/library":
+            return pages["LIB"]
         # If the user tries to reach a different page, return a 404 message
         return dbc.Jumbotron(
             [

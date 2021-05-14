@@ -37,7 +37,7 @@ padding: 2rem 1rem;
         top: 0;
         left: 0;
         bottom: 0;
-        width: 20rem;
+        width: 12rem;
         text-align: left;
         transition: margin 0.3s ease-in-out, padding 0.3s ease-in-out;
     }
@@ -51,7 +51,7 @@ padding: 2rem 1rem;
 
     /* add negative margin to sidebar to achieve the collapse */
     #sidebar.collapsed {
-        margin-left: -15.5rem;
+        margin-left: -7.5rem;
         padding-right: 0.5rem;
     }
 
@@ -88,7 +88,7 @@ padding: 2rem 1rem;
 
     /* set margins of the main content so that it doesn't overlap the sidebar */
     #page-content {
-        margin-left: 22rem;
+        margin-left: 13rem;
         margin-right: 2rem;
         transition: margin-left 0.3s ease-in-out;
     }
