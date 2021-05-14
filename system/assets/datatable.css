@@ -1,0 +1,17 @@
+.row.row-0 {
+    display:block !important
+}
+
+.row.row-1 {
+    display:block !important
+}
+
+/* tooltip size */
+.dash-table-tooltip {
+    max-width: 500px !important;
+}
+
+
+.cell-table {
+    display:block !important
+}
