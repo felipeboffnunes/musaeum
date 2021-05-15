@@ -22,3 +22,22 @@
     display:block !important;
 }
 
+.dash-tooltip {
+    top: 7% !important;
+    left: 40% !important;
+}
+
+.dash-table-tooltip {
+    min-width: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    border: 1px solid black;
+    background-color: white !important;
+    line-height: 1.2 !important;
+    font-size: 0.7vw !important;
+}
+.dash-table-tooltip img {
+    border: 1px solid black;
+    margin-top: 1%;
+}

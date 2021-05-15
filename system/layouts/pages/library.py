@@ -6,6 +6,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
 import pandas as pd
+#
 
 conn = sqlite3.connect("system/data/sqlite/library.db")
 library_df = pd.read_sql_query("SELECT * from library", conn)
@@ -63,6 +64,25 @@ library_page = html.Div([
         'backgroundColor': 'white',
         'fontWeight': 'bold'
         },
+        tooltip_data=[
+        {
+            'Author': {
+                'value': """
+                \n![Aldous Leonard Huxley](./assets/images/authors/aldous_leonard_huxley_.jpg)
+                \nAldous Leonard Huxley
+                \n26 July 1894 - 22 November 1963
+                \nAldous Leonard Huxley was an English writer and philosopher.
+                \nHe wrote nearly 50 books—both novels and non-fiction works—as well as wide-ranging essays, narratives, and poems.
+                \nBy the end of his life, Huxley was widely acknowledged as one of the foremost intellectuals of his time.
+                \nHe was nominated for the Nobel Prize in Literature nine times and was elected Companion of Literature by the Royal Society of Literature in 1962.
+                \nHuxley was a pacifist.  
+                \nIn his most famous novel Brave New World (1932) and his final novel Island (1962), he presented his vision of dystopia and utopia, respectively.
+                \n""",
+                'type': 'markdown',
+            }
+        }
+        ],
+        tooltip_duration = None,
         columns=[
             {"name": i, "id": i} for i in library_df.columns
         ],
