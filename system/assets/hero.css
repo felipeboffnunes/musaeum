@@ -1,0 +1,50 @@
+#hero-page {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: absolute;
+    
+    background-color: black;
+    color: white;
+
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hero-page h1 {
+    color: white;
+    text-align: center;
+}
+
+#hero-title-div{
+    display: inline-block;
+}
+
+#hero-title-div p{
+    text-align: center;
+}
+
+#hero-title-div hr{
+    border: 1px solid white;
+    width: 60%;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+#hero-button {
+    text-align: center;
+    width: 30% !important;
+    margin: auto;
+}
+
+#hero-pyrrhic {
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border-radius: 100%;
+    border: 2px solid white;
+    margin-bottom: 0.8em;
+}

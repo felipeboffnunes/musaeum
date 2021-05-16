@@ -60,7 +60,7 @@ sidebar = html.Div(
         dbc.Collapse(
             dbc.Nav(
                 [
-                    dbc.NavLink("Home", href="/", active="exact"),
+                    dbc.NavLink("Home", href="/home", active="exact"),
                     dbc.NavLink("Library", href="/library", active="exact"),
                 ],
                 vertical=True,

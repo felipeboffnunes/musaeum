@@ -6,27 +6,32 @@ import dash_html_components as html
 from dash.dependencies import Output, Input, State
 # Local application/library specific imports
 from system.layouts.pages.pages_index import pages
+from system.layouts.fragments.menu import sidebar
 
 def register_callbacks(app):
 
     # Navigator
     #
-    @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
-    def render_page_content(pathname):
+    @app.callback(Output("inner-layout", "children"), [Input("url", "pathname")])
+    def render_page_content(pathname): 
         if pathname == "/":
-            return pages["LIB"]
+            content = html.Div([pages["HER"]], id="page-content")
+            return None, content
+        elif pathname == "/home":
+            content = html.Div([pages["LIB"]], id="page-content")
+            return sidebar, content
         elif pathname == "/library":
-            return pages["LIB"]
+            content = html.Div([pages["LIB"]], id="page-content")
+            return sidebar, content
         # If the user tries to reach a different page, return a 404 message
-        return dbc.Jumbotron(
+        return sidebar, html.Div([dbc.Jumbotron(
             [
                 html.H1("404: Not found", className="text-danger"),
                 html.Hr(),
                 html.P(f"The pathname {pathname} was not recognised..."),
             ]
-        )
-
-
+        )], id="page-content")
+        
     # Collapse Sidebar
     #
     @app.callback(
