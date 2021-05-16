@@ -25,7 +25,6 @@
 #hero-page h1 {
     color: white;
     text-align: center;
-    font-family: 'Arial';
 }
 
 #hero-title-div{
@@ -34,7 +33,6 @@
 
 #hero-title-div p{
     text-align: center;
-    font-family: 'Arial';
 }
 
 #hero-title-div hr{
