@@ -8,4 +8,4 @@ from system.layouts.fragments.menu import sidebar
 
 def register_layout(app):
         content = html.Div(id="page-content")
-        app.layout = html.Div([dcc.Location(id="url"), sidebar, content], id="layout")
+        app.layout = html.Div([dcc.Location(id="url"), html.Div([sidebar, content], id="inner-layout")], id="layout")
