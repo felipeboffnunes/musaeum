@@ -13,8 +13,7 @@ def register_callbacks(app):
     # Navigator
     #
     @app.callback(Output("inner-layout", "children"), [Input("url", "pathname")])
-    def render_page_content(pathname):
-        
+    def render_page_content(pathname): 
         if pathname == "/":
             content = html.Div([pages["HER"]], id="page-content")
             return None, content
