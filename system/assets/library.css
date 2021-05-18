@@ -1,0 +1,10 @@
+#library-page {
+    height: 100vh;
+    
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+
+    padding-left: 2rem;
+    padding-top: 1rem;
+}

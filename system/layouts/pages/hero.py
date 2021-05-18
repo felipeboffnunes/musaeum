@@ -20,4 +20,4 @@ hero_page = html.Div([
         html.P("by pyrrhic buddha"),
         dbc.NavLink("ENTER", href="/home", active="exact", id="hero-button"),
     ], id="hero-title-div")
-], className="row", id="hero-page")
+], id="hero-page")
