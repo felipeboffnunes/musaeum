@@ -22,5 +22,3 @@ app.config['suppress_callback_exceptions'] = True
 
 register_layout(app)
 register_callbacks(app)
-
-
