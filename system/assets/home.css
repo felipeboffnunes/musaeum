@@ -30,7 +30,7 @@
     
     display: inline;
     text-align: left;
-    font-size: 6px;
+    font-size: 10px;
 }
 
 #home-paragraph {
@@ -45,7 +45,7 @@
     background-color: rgba(0, 0, 0, .7);
     width: 15%;
     min-width: 15%;
-    font-size: 10px;
+    font-size: 12px;
     text-align: right;
     
 }
