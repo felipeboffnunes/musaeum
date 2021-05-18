@@ -18,7 +18,7 @@ def register_callbacks(app):
             content = html.Div([pages["HER"]], id="page-content")
             return None, content
         elif pathname == "/home":
-            content = html.Div([pages["LIB"]], id="page-content")
+            content = html.Div([pages["HOM"]], id="page-content")
             return sidebar, content
         elif pathname == "/library":
             content = html.Div([pages["LIB"]], id="page-content")

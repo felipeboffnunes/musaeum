@@ -10,6 +10,7 @@ external_stylesheets = [dbc.themes.LUX]
 
 app = Dash(
     __name__,
+    title = 'Musaeum',
     external_stylesheets = external_stylesheets,
     # these meta_tags ensure content is scaled correctly on different devices
     meta_tags=[

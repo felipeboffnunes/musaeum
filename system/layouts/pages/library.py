@@ -90,7 +90,4 @@ library_page = html.Div([
         page_size= 10,
         css=[{'selector': '.row', 'rule': 'margin: 0'}]
     ),
-], style={"height": "100vh",
-          "overflow": "hidden",
-          "display": "flex",
-          "flex-flow": "column"}, id="library-div")
+], id="library-page")
