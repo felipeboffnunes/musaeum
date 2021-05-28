@@ -17,9 +17,10 @@ library_page = html.Div([
         id='library-datatable',
         fixed_rows={'headers': True},
         style_table={
-        'height': 'auto',
         'overflowY': 'auto',
-        'overflowX': 'hidden'
+        'overflowX': 'hidden',
+        "height": "90vh", 
+        "maxHeight": "90vh"
         },
         style_cell={
         'whiteSpace': 'normal',
@@ -87,7 +88,7 @@ library_page = html.Div([
         selected_rows=[],
         page_action="native",
         page_current= 0,
-        page_size= 10,
+        page_size=20,
         css=[{'selector': '.row', 'rule': 'margin: 0'}]
     ),
 ], id="library-page")
