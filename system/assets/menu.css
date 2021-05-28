@@ -18,29 +18,40 @@
 }
   
 #sidebar h2 {
-text-align: left;
-margin-bottom: 0;
-color: #FFFFFF;
+    text-align: left;
+    margin-bottom: 0;
+    color: #FFFFFF;
 }
 
 /* Hide the blurb on a small screen */
 #blurb {
-display: none;
+    display: none;
 }
 
 #sidebar-toggle {
-display: none;
+    display: none;
 }
 
 #collapse *:first-child {
-margin-top: 1rem;
+    margin-top: 1rem;
 }
 
 /* add the three horizontal bars icon for the toggle */
 .navbar-toggler-icon {
-background-image: url("./images/icons/menu_white_48dp_2x.svg");
+    background-image: url("./images/icons/logo_musaeum.png");
+    width: 2rem !important;
+    height: 2rem !important;
 }
 
+#line-logo {
+    border-top: 1px solid #FFFFFF !important;
+}
+
+#musaeum-header {
+    padding-top: 1rem;
+    font-size: 20px !important;
+    width: 0% !important;
+}
 
 @media (min-width: 48em) {
     #sidebar {
@@ -104,3 +115,4 @@ background-image: url("./images/icons/menu_white_48dp_2x.svg");
         transition: margin-left 0.3s ease-in-out;
     }
 }
+

@@ -9,7 +9,7 @@ import dash_html_components as html
 # it consists of a title, and a toggle, the latter is hidden on large screens
 sidebar_header = dbc.Row(
     [
-        dbc.Col(html.H2("KOR", className="display-5")),
+        dbc.Col(html.P("Musaeum"), id="musaeum-header"),
         dbc.Col(
             [
                 html.Button(
@@ -47,7 +47,8 @@ sidebar_header = dbc.Row(
 sidebar = html.Div(
     [
         sidebar_header,
-        html.P("Geburah"),
+        html.Hr(id="line-logo"),
+        html.P("not a university"),
         # we wrap the horizontal rule and short blurb in a div that can be
         # hidden on a small screen
         html.Div(
@@ -62,6 +63,8 @@ sidebar = html.Div(
                 [
                     dbc.NavLink("Home", href="/home", active="exact"),
                     dbc.NavLink("Library", href="/library", active="exact"),
+                    dbc.NavLink("Logbook", href="/logbook", active="exact"),
+                    dbc.NavLink("About", href="/about", active="exact"),
                 ],
                 vertical=True,
                 pills=True,
