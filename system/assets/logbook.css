@@ -4,7 +4,21 @@
     padding-left: 1rem;
 }
 
+#vitruvian {
+    max-height: 60vw !important;
+    max-width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
+#vitruvian-quote {
+    text-align: justify;
+    display: block;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 #header-days {
     padding-top: 2rem;
@@ -12,34 +26,28 @@
 
 
 /* ACTIVITIES */
-.activity-icon {
-    height: 100%;
+#activity-row{
+    min-height: 3rem;
 }
 
-.activity-header {
-    margin: 0 !important;
-    padding: 0 !important;
+.activity-icon {
+    min-height: 100% !important;
+    padding-right: 1rem;
 }
 
 .activity-details {
     margin-bottom: 0 !important;
-    padding-left: 0.5rem;
     font-size: 18px;
 }
 
 /* STUDIES */
 .study-icon {
-    height: 100%;
-}
-
-.study-header {
-    margin: 0 !important;
-    padding: 0 !important;
+    min-height: 100% !important;
+    padding-right: 1rem;
 }
 
 .study-details {
     margin-bottom: 0 !important;
-    padding-left: 0.5rem;
     font-size: 18px;
 }
 
@@ -78,5 +86,7 @@ Calendar Heatmap
 
 .heatmap-week-number {
     font-size: 10px !important;
+    text-align: center;
+    padding: 0;
     margin: 0 !important;
 }

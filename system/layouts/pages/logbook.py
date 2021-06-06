@@ -24,31 +24,42 @@ logbook_page = html.Div([
     html.Hr(),
     dbc.Row([
         dbc.Col([
-            #Activities
-            dbc.Row([
-                dbc.Col([
-                    dbc.Row([
-                        dbc.Col(html.Img(src="./assets/images/icons/dog-side.svg", className="activity-icon"), width=2),
-                        dbc.Col(html.H3("Walked Marbas", className="activity-header"), width=5),
-                        dbc.Col(html.P("1Km - 15 min", className="activity-details"), width=5)
-                    ], className="activity-row"),
-                ], id="activities-col"),
-            ]),
+            html.H4("Activities"),
+            html.Div([
+                dbc.Row([
+                    dbc.Col([
+                    html.Img(src="./assets/images/icons/dog-side.svg", className="activity-icon"),
+                    ], width="auto"),
+                    dbc.Col([
+                        html.H3("Walked Marbas", className="activity-header"),
+                        html.P("1Km - 15 min", className="activity-details")
+                    ], width = 9)
+                ], className="activity-row")
+            ], id="activities-col"),
             html.Hr(),
-            #Studies
-            dbc.Row([
-                dbc.Col([
-                    dbc.Row([
-                        dbc.Col(html.Img(src="./assets/images/icons/book.svg", className="study-icon"), width=2),
-                        dbc.Col(html.H3("Read 50 pages", className="study-header"), width=5),
-                        dbc.Col(html.P("2 hours", className="study-details"), width=5)
-                    ], className="study-div")
-                ], id="studies-col")
-            ])
+            html.H4("Studies"),
+            html.Div([
+                dbc.Row([
+                    dbc.Col([
+                        html.Img(src="./assets/images/icons/book.svg", className="study-icon"),
+                    ], width="auto"),
+                    dbc.Col([
+                        html.H3("Read 50 pages", className="study-header"),
+                        html.P("2 hours", className="study-details")
+                    ], width=9)
+                ], className="study-row")
+            ], id="studies-col")
         ], width = 4),
-        
         dbc.Col([
-            #Nutrition
+            dbc.Row([
+                html.Img(src="./assets/images/background/VitruvianMan_post.jpg", id="vitruvian")
+            ]),
+            dbc.Row([
+                html.Span("Iron rusts from disuse; water loses its purity from stagnation... even so does inaction sap the vigor of the mind.", id="vitruvian-quote")
+            ])
+        ],id="vitruvian-col", width = 4),
+        dbc.Col([
+            html.H4("Nutrition"),
             dbc.Row([
                 dbc.Col([
                     dbc.Row([
@@ -61,7 +72,7 @@ logbook_page = html.Div([
                 ])
             ]),
             html.Hr(),
-            #Exercise
+            html.H4("Exercises"),
             dbc.Row([
                 dbc.Col([
                     dbc.Row([
@@ -73,7 +84,7 @@ logbook_page = html.Div([
                     ])
                 ])
             ])
-        ], width=5)
+        ], width=4)
     ], justify="between",)
     
 ], id="logbook-div")
