@@ -10,7 +10,7 @@ home_page = html.Div([
         autoPlay=True,
         loop=True,
         muted=True,
-        poster="./assets/images/background/background.png",
+        poster="./assets/images/icons/loading.gif",
         id="home-background"
         ),
     html.Div([
