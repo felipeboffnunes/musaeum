@@ -11,7 +11,7 @@ hero_page = html.Div([
         autoPlay=True,
         loop=True,
         muted=True,
-        poster="./assets/images/icons/loading.gif",
+        poster="./assets/images/background/background.png",
         id="hero-background"
         ),
         html.Img(src="./assets/images/icons/hero-pyrrhic.gif", id="hero-pyrrhic"),

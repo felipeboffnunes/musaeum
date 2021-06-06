@@ -23,6 +23,9 @@ def register_callbacks(app):
         elif pathname == "/library":
             content = html.Div([pages["LIB"]], id="page-content")
             return sidebar, content
+        elif pathname == "/logbook":
+            content = html.Div([pages["LOG"]], id="page-content")
+            return sidebar, content
         # If the user tries to reach a different page, return a 404 message
         return sidebar, html.Div([dbc.Jumbotron(
             [

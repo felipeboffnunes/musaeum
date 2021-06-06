@@ -1,0 +1,82 @@
+
+#logbook-div {
+    padding-top: 1rem;
+    padding-left: 1rem;
+}
+
+
+
+#header-days {
+    padding-top: 2rem;
+}
+
+
+/* ACTIVITIES */
+.activity-icon {
+    height: 100%;
+}
+
+.activity-header {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.activity-details {
+    margin-bottom: 0 !important;
+    padding-left: 0.5rem;
+    font-size: 18px;
+}
+
+/* STUDIES */
+.study-icon {
+    height: 100%;
+}
+
+.study-header {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.study-details {
+    margin-bottom: 0 !important;
+    padding-left: 0.5rem;
+    font-size: 18px;
+}
+
+
+
+/*
+Calendar Heatmap
+*/
+#heatmap-0 {
+    background-color: #FFFFFF !important;
+}
+
+#heatmap-1 {
+    background-color: #DEE7DB !important;
+}
+
+#heatmap-2 {
+    background-color: #BCCFB8 !important;
+}
+
+#heatmap-3 {
+    background-color: #9BB894 !important;
+}
+
+#heatmap-4 {
+    background-color: #79A071 !important;
+}
+
+#heatmap-5 {
+    background-color: #58884D !important;
+}
+
+.heatmap-day {
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.heatmap-week-number {
+    font-size: 10px !important;
+    margin: 0 !important;
+}
