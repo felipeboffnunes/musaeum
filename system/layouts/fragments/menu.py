@@ -58,17 +58,29 @@ sidebar = html.Div(
             id="blurb",
         ),
         # use the Collapse component to animate hiding / revealing links
-        dbc.Collapse(
+        dbc.Collapse([
             dbc.Nav(
                 [
                     dbc.NavLink("Home", href="/home", active="exact"),
-                    dbc.NavLink("Library", href="/library", active="exact"),
-                    dbc.NavLink("Logbook", href="/logbook", active="exact"),
                     dbc.NavLink("About", href="/about", active="exact"),
+                    dbc.NavLink("Wiki", href="https://wiki.musaeum.university")
                 ],
                 vertical=True,
                 pills=True,
             ),
+            html.Div([
+                html.Hr(id="line-logo"),
+                dbc.Col(html.P("Pyrrhic Buddha", id="pyrrhic-header")),
+                dbc.Nav(
+                    [
+                        dbc.NavLink("Library", href="/library", active="exact"),
+                        dbc.NavLink("Logbook", href="/logbook", active="exact"),
+                    ],
+                    vertical=True,
+                    pills=True,
+                )
+            ], id="pyrrhic-sidebar")
+            ],
             id="collapse",
         ),
     ],
