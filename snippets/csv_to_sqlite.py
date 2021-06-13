@@ -3,18 +3,20 @@ import sqlite3
 # Third party imports
 import pandas
 
-TARGET = "LIB"
+TARGET = "LOG"
 
 CSV_NAME = {
-    "LIB" : "library.csv",      
+    "LIB" : "library.csv",  
+    "NUT" : "nutrition.csv",
+    "EXE" : "exercises.csv",
+    "LOG" : "small_log.csv"
 }
 
 DB_NAME = {
     "LIB" : "library",
-}
-
-LAYOUT = {
-    "LIB" : "(author, title, pages, publisher, language, isbn-13, genre-1, genre-2, genre-3, rating)",
+    "NUT" : "nutrition",
+    "EXE" : "exercises",
+    "LOG" : "small_log"   
 }
 
 CSV_PATH = f"../system/data/csv/{CSV_NAME[TARGET]}"

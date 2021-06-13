@@ -1,22 +1,27 @@
-# Python Standard Library
+from typing import List, Dict
+
 import sqlite3
 import datetime
-# Third party imports
+
 import pandas as pd
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-# Local application/library specific imports
-from system.layouts.fragments.calendar_heatmap import calendar_heatmap
+
 
 class LogBook_Handler():
     
-    INITIAL_DATE = datetime.date(1997, 6, 4)
+    INITIAL_DATE: datetime.date = datetime.date(1997, 6, 4)
+    START_AT: int = 8766
 
-    PATH = "system/data/sqlite/"
-    LOCAL = "../../../data/sqlite/"
+    SYSTEM: str = "system/data/sqlite/"
+    LOCAL: str = "../../../data/sqlite/"
 
-    TYPE: dict = {
+    PATH: str = SYSTEM
+
+
+    TYPE: Dict[str, Dict] = {
+        "LOG" : {"name": "small_log"},
         "NUT" : {
             "name":       "nutrition",
             "first_row":  ["Fish", "Meat", "Ham", "Tapioca", "Egg", "Power Ade", "Monster"],
@@ -35,15 +40,18 @@ class LogBook_Handler():
         }
     }
     
+    IGNORE_COL: List[str] = ["index", "Day"]
+    
+    
     def consume_data(self, date_str:str) -> html.Div:
+        
         day = self._date_str_to_day(date_str)
         date_ = self._date_str_to_date(date_str)
         
         exercise_data = self._health_day(day, "EXE")
         nutrition_data = self._health_day(day, "NUT")
         
-        
-        result = [html.Div([
+        result: list = [html.Div([
             dbc.Row([
                 dbc.Col([
                     dbc.Col(html.H1(day, id="day-old")),
@@ -52,7 +60,7 @@ class LogBook_Handler():
                         id='day-picker'
                     )
                 ], width = 2, id="header-days"),
-                calendar_heatmap,
+                self._calendar(),
                 ]),
             ], id="day-div"),
             html.Hr(),
@@ -140,17 +148,16 @@ class LogBook_Handler():
         return date_
 
     def _health_day(self, day:int, type_:str) -> tuple: 
+        
         conn = sqlite3.connect(f"{self.PATH}{self.TYPE[type_]['name']}.db")
         df = pd.read_sql_query(f"SELECT * from {self.TYPE[type_]['name']}", conn)
-        
-        ignore_col = ["index", "Day"]
         
         day_df = df[df["Day"] == day]
         day_df = day_df.reset_index(drop=True)
         day_first_rows = []
         day_second_rows = []
         for idx, row in day_df.iteritems():
-            if idx not in ignore_col and row[0] != 0:
+            if idx not in self.IGNORE_COL and row[0] != 0:
                 row = dbc.Row(html.P(f"{idx}: {row[0]}"), id=f"{self.TYPE[type_]['name']}-row")
                 if idx in self.TYPE[type_]["first_row"]:
                     day_first_rows.append(row)
@@ -159,3 +166,68 @@ class LogBook_Handler():
         
         result = dbc.Col(day_first_rows, width= {"size": 5, "offset": 1}), dbc.Col(day_second_rows, width={"size": 5})
         return result
+    
+    def _calendar(self) -> dbc.Col:
+        
+        number_of_weeks = 16
+        first_week = self.START_AT//7 
+        week_offset = 3
+        
+        def _setup_calendar_data() -> list:
+        
+            conn = sqlite3.connect(f"{self.PATH}{self.TYPE['LOG']['name']}.db")
+            df = pd.read_sql_query(f"SELECT * from {self.TYPE['LOG']['name']}", conn)
+        
+            rows = [__setup_number_row()]
+            rows.extend(__setup_day_rows(df))
+            rows.extend(__setup_tooltips(df))
+        
+            return rows  
+        
+        def __setup_tooltips(df: pd.DataFrame) -> list:
+            
+            tooltips = []
+            for idx, row in df.iterrows():  
+                tooltip = dbc.Tooltip(
+                    row["Description"],
+                    target=f"_{row['Day']}",
+                )
+                tooltips.append(tooltip)
+                
+            return tooltips
+        
+        def __setup_number_row() -> list:
+            
+            number_week_row = [dbc.Col(html.P(" ", className = "heatmap-week-number"))]
+            for i in range(first_week, first_week+number_of_weeks):
+                col = dbc.Col(html.P(i, className = "heatmap-week-number"))
+                number_week_row.append(col)
+                
+            return dbc.Row(number_week_row)
+        
+        def __setup_day_rows(df: pd.DataFrame) -> list:
+            week = "sunday monday tuesday wednesday thursday friday saturday".split()
+            week_abv = "sun mon tur wed thu fri sat".split()  
+            
+            day_rows = []
+            for i, (day, day_abv) in enumerate(zip(week, week_abv)):
+                day_row = [dbc.Col(html.Span(day_abv, className = "heatmap-day-week"))]
+                
+                for y in range(first_week, first_week+number_of_weeks):
+                    
+                    day_number = y*7 + i - week_offset
+                    
+                    rate_aux = df[df["Day"] == day_number]["Rate"]
+                    rate = rate_aux.values[0] if len(rate_aux) > 0 else 0
+                    
+                    day_col = dbc.Col(html.Br(), id = f"_{day_number}", className = f"heatmap-day heatmap-{rate}")
+                    day_row.append(day_col)
+                    
+                day_rows.append(dbc.Row(day_row, id=f"heatmap-day-row heatmap-{day}"))
+                
+            return day_rows
+
+        calendar_heatmap = dbc.Col(_setup_calendar_data(), className = "heatmap-weeks")
+        
+        return calendar_heatmap
+    
