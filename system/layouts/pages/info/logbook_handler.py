@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 
 import sqlite3
 import datetime
@@ -37,7 +37,21 @@ class LogBook_Handler():
                         "Alt. Leg Pelvic Tilt", "Isometric Squat", "Alt. Calf Raise",
                         "Reverse Fly", "Biceps Curl", "Alt. Biceps Curls",
                         "Jackknife", "Canoe Crunch", "Short Crunch"]
+        },
+        "ACT" : {
+            "name": "activities",
+            "individual": "activity"
         }
+    }
+    
+    ICONS: Dict[str, str] = {
+        "Walked Marbas" : "./assets/images/icons/dog-side.svg",
+        "Water Plants"  : "./assets/images/icons/watering-can.svg",
+        "Meditate"      : "./assets/images/icons/meditation.svg",
+        "Clean Dishes"  : "./assets/images/icons/silverware-clean.svg",
+        "Wash Clothes"  : "./assets/images/icons/washing-machine.svg",
+        "Clean House"   : "./assets/images/icons/spray-bottle.svg",
+        "Buy Food"      : "./assets/images/icons/cart.svg"
     }
     
     IGNORE_COL: List[str] = ["index", "Day"]
@@ -46,17 +60,15 @@ class LogBook_Handler():
     def consume_data(self, date_str:str) -> html.Div:
         
         day = self._date_str_to_day(date_str)
-        date_ = self._date_str_to_date(date_str)
-        
-        exercise_data = self._health_day(day, "EXE")
-        nutrition_data = self._health_day(day, "NUT")
         
         result: list = [html.Div([
             dbc.Row([
                 dbc.Col([
                     dbc.Col(html.H1(day, id="day-old")),
                     dcc.DatePickerSingle(
-                        date=date_,
+                        date=self._date_str_to_date(date_str),
+                        min_date_allowed=datetime.date(2021, 6, 4),
+                        max_date_allowed=datetime.date(2021, 6, 12),
                         id='day-picker'
                     )
                 ], width = 2, id="header-days"),
@@ -67,17 +79,7 @@ class LogBook_Handler():
             dbc.Row([
                 dbc.Col([
                     html.H4("Activities"),
-                    html.Div([
-                        dbc.Row([
-                            dbc.Col([
-                            html.Img(src="./assets/images/icons/dog-side.svg", className="activity-icon"),
-                            ], width="auto"),
-                            dbc.Col([
-                                html.H3("Walked Marbas", className="activity-header"),
-                                html.P("1Km - 15 min", className="activity-details")
-                            ], width = 9)
-                        ], className="activity-row")
-                    ], id="activities-col"),
+                    self._data(day, "ACT"),
                     html.Hr(),
                     html.H4("Studies"),
                     html.Div([
@@ -111,9 +113,7 @@ class LogBook_Handler():
                             dbc.Row([
                                 dbc.Col(dbc.Progress(value=74, id="nutrition-calories-progress"))
                             ]),
-                            dbc.Row(
-                                nutrition_data, id="nutrition-data"
-                            )
+                            self._data(day, "NUT")
                         ])
                     ]),
                     html.Hr(),
@@ -127,13 +127,11 @@ class LogBook_Handler():
                             dbc.Row([
                                 dbc.Col(dbc.Progress(value=91, id="exercise-calories-progress"))
                             ]),
-                            dbc.Row(
-                                exercise_data, id="exercises-data"
-                            )
+                            self._data(day, "EXE")
                         ])
                     ])
                 ], width=4)
-            ], justify="between",)]
+            ], justify="between")]
         
         return result  
         
@@ -147,25 +145,67 @@ class LogBook_Handler():
         date_ = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
         return date_
 
-    def _health_day(self, day:int, type_:str) -> tuple: 
+    def _data(self, day:int, type_:str) -> Union[dbc.Row, html.Div]: 
         
-        conn = sqlite3.connect(f"{self.PATH}{self.TYPE[type_]['name']}.db")
-        df = pd.read_sql_query(f"SELECT * from {self.TYPE[type_]['name']}", conn)
+        def __get_df(type_:str) -> pd.DataFrame:
+            conn = sqlite3.connect(f"{self.PATH}{self.TYPE[type_]['name']}.db")
+            df = pd.read_sql_query(f"SELECT * from {self.TYPE[type_]['name']}", conn)
+            
+            conn.close()
+            
+            df = df[df["Day"] == day].reset_index(drop=True)
+            
+            return df
         
-        day_df = df[df["Day"] == day]
-        day_df = day_df.reset_index(drop=True)
-        day_first_rows = []
-        day_second_rows = []
-        for idx, row in day_df.iteritems():
-            if idx not in self.IGNORE_COL and row[0] != 0:
-                row = dbc.Row(html.P(f"{idx}: {row[0]}"), id=f"{self.TYPE[type_]['name']}-row")
-                if idx in self.TYPE[type_]["first_row"]:
-                    day_first_rows.append(row)
-                elif idx in self.TYPE[type_]["second_row"]:
-                    day_second_rows.append(row)
+        def __health() -> list:
+            day_first_rows = []
+            day_second_rows = []
+            for idx, row in df.iteritems():
+                if idx not in self.IGNORE_COL and row[0] != 0:
+                    row = dbc.Row(html.P(f"{idx}: {row[0]}"), id=f"{self.TYPE[type_]['name']}-row")
+                    if idx in self.TYPE[type_]["first_row"]:
+                        day_first_rows.append(row)
+                    elif idx in self.TYPE[type_]["second_row"]:
+                        day_second_rows.append(row)
         
-        result = dbc.Col(day_first_rows, width= {"size": 5, "offset": 1}), dbc.Col(day_second_rows, width={"size": 5})
+            col = [dbc.Col(day_first_rows, width= {"size": 5, "offset": 1}), dbc.Col(day_second_rows, width={"size": 5})]
+            return col
+            
+        def __tasks() -> list:
+            rows = []
+            for idx, row in df.iteritems():
+                if idx not in self.IGNORE_COL and row[0] != 0 and row[0] != "0":
+                    row = dbc.Row([
+                        dbc.Col(
+                            html.Img(src=self.ICONS[idx], 
+                                     className=f"{self.TYPE[type_]['individual']}-icon" 
+                                     if idx in ["Walked Marbas", "Meditate"] 
+                                     else f"{self.TYPE[type_]['individual']}-icon-small"),
+                            width="auto"),
+                        dbc.Col(
+                            [
+                            html.H3(idx, className=f"{self.TYPE[type_]['individual']}-header"),
+                            html.P(row[0], className=f"{self.TYPE[type_]['individual']}-details")
+                            if row[0] != "1" and row[0] != 1 else None
+                            ] if idx in ["Walked Marbas", "Meditate"] else 
+                            html.H4(idx, className=f"{self.TYPE[type_]['individual']}-header")
+                            , width=9)
+                    ], className=f"{self.TYPE[type_]['individual']}-row")
+                    rows.append(row)
+            return rows
+        
+        df = __get_df(type_)
+        
+        health = ["NUT", "EXE"]
+        tasks = ["ACT", "STU"]
+        
+        if type_ in health:
+            result = dbc.Row(__health(), id=f"{self.TYPE[type_]['name']}-data")
+        elif type_ in tasks:
+            result = html.Div(__tasks(), id=f"{self.TYPE[type_]['name']}-data")
+        
         return result
+
     
     def _calendar(self) -> dbc.Col:
         

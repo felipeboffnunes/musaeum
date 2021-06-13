@@ -3,25 +3,19 @@ import sqlite3
 # Third party imports
 import pandas
 
-TARGET = "LOG"
+TARGET = "ACT"
 
-CSV_NAME = {
-    "LIB" : "library.csv",  
-    "NUT" : "nutrition.csv",
-    "EXE" : "exercises.csv",
-    "LOG" : "small_log.csv"
-}
-
-DB_NAME = {
+NAME = {
     "LIB" : "library",
     "NUT" : "nutrition",
     "EXE" : "exercises",
-    "LOG" : "small_log"   
+    "LOG" : "small_log",
+    "ACT" : "activities" 
 }
 
-CSV_PATH = f"../system/data/csv/{CSV_NAME[TARGET]}"
-SQ_PATH = f"../system/data/sqlite/{DB_NAME[TARGET]}.db"
+CSV_PATH = f"../system/data/csv/{NAME[TARGET]}.csv"
+SQ_PATH = f"../system/data/sqlite/{NAME[TARGET]}.db"
 
 cnx = sqlite3.connect(SQ_PATH)
 df = pandas.read_csv(CSV_PATH)
-df.to_sql(DB_NAME[TARGET], cnx)
+df.to_sql(NAME[TARGET], cnx)
