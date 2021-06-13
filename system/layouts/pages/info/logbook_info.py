@@ -18,27 +18,12 @@
 # Omega 3
 # Coffee
 
-
-
-
-
-
 # Exercise
 #
 # Calories
 # Basal 2150
 # Extra 500
 # Recommended 2650
-#
-# Types of sets
-# Supino
-# Agachamento
-# Biceps alternado
-# Ombro Lateral
-# Ombro frontal
-# Triceps
-# Abdominal
-# Corda
 
 # Activities
 # Caminhar Marbas (1km)
@@ -54,5 +39,3 @@
 # Trabalhar mestrado
 # Ler artigo
 # Ler X paginas
-
-
