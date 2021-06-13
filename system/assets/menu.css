@@ -53,6 +53,17 @@
     width: 0% !important;
 }
 
+#pyrrhic-header {
+    margin: 0;
+    width: 100%;
+}
+
+#pyrrhic-sidebar {
+    bottom: 0;
+    position: absolute;
+    padding-bottom: 2rem;
+}
+
 @media (min-width: 48em) {
     #sidebar {
         position: fixed;

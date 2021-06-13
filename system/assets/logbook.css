@@ -51,11 +51,28 @@
     font-size: 18px;
 }
 
+/* NUTRITION */
+#nutrition-data {
+    padding-top: 1rem;
+}
+
+#nutrition-row p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* EXERCISES */
+#exercises-data {
+    padding-top: 1rem;
+}
+
+#exercises-row p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
 
-/*
-Calendar Heatmap
-*/
+/* Calendar Heatmap */
 #heatmap-0 {
     background-color: #FFFFFF !important;
 }
