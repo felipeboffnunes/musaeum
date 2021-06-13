@@ -1,4 +1,3 @@
-
 # Third party imports
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
@@ -7,6 +6,7 @@ from dash.dependencies import Output, Input, State
 # Local application/library specific imports
 from system.layouts.pages.pages_index import pages
 from system.layouts.fragments.menu import sidebar
+from system.layouts.pages.info.logbook_handler import LogBook_Handler
 
 def register_callbacks(app):
 
@@ -57,3 +57,13 @@ def register_callbacks(app):
         if n:
             return not is_open
         return is_open
+    
+    # Logbook
+    #
+    @app.callback(
+    Output("logbook-div", "children"),
+    [Input("day-picker", "date")]
+    )
+    def update_health(date_str):
+        lg_handler = LogBook_Handler()
+        return lg_handler.consume_data(date_str)
