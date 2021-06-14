@@ -1,0 +1,37 @@
+#writing-page-div {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100vh;
+}
+
+.writing-page-col {
+    padding-bottom: 1rem;
+}
+
+.poetry-card-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.poetry-card-footer {
+    text-align: center;
+}
+
+.poetry-card-title {
+    text-align: left;
+}
+
+.poetry-card-text-div p{
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+}
+
+.poetry-card-text-div > br{
+    display: block; 
+    content: ""; 
+    margin-top: 13px;
+}

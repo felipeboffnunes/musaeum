@@ -1,12 +1,11 @@
-# Python Standard Library
 import sqlite3
-# Third party imports
+
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
 import pandas as pd
-# Components
+
 from system.layouts.pages.info.library_info import authors
 
 conn = sqlite3.connect("system/data/sqlite/library.db")
