@@ -8,3 +8,20 @@
     padding-left: 2rem;
     padding-top: 1rem;
 }
+
+.author-description-img-col {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+}
+
+.author-description-img {
+    border: 1px solid black;
+}
+
+.author-description-header {
+    text-align: left;
+}
+
+.author-description-body {
+    text-align: justify;
+}
