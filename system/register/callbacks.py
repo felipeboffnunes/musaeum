@@ -1,4 +1,5 @@
 # Third party imports
+import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -7,6 +8,7 @@ from dash.dependencies import Output, Input, State
 from system.layouts.pages.pages_index import pages
 from system.layouts.fragments.menu import sidebar
 from system.layouts.pages.info.logbook_handler import LogBook_Handler
+from system.layouts.pages.info.library_info import authors
 
 def register_callbacks(app):
 
@@ -67,3 +69,20 @@ def register_callbacks(app):
     def update_health(date_str):
         lg_handler = LogBook_Handler()
         return lg_handler.consume_data(date_str)
+    
+    # Library
+    #
+    @app.callback(
+    [Output("library-modal", "is_open"),
+     Output("library-modal-body", "children"),
+     Output("library-modal-header", "children")],
+    [Input("library-datatable", "active_cell"),
+     Input("library-datatable", "derived_viewport_data")]
+    )
+    def update_library_modal(active_cell, data):
+        print(active_cell)
+        if active_cell is None:
+            return [dash.no_update, dash.no_update, dash.no_update]
+        if active_cell["column"] == 1:
+            return [True, authors[data[active_cell["row"]]["Author"]]["description"], data[active_cell["row"]]["Author"]]
+        return [dash.no_update, dash.no_update, dash.no_update]

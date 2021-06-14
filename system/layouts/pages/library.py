@@ -66,15 +66,6 @@ library_page = html.Div([
         'backgroundColor': 'white',
         'fontWeight': 'bold'
         },
-        tooltip_data=[
-        {
-            'Author': {
-                'value': author,
-                'type': 'markdown',
-            }
-        } for author in authors
-        ],
-        tooltip_duration = None,
         columns=[
             {"name": i, "id": i} for i in library_df.columns
         ],
@@ -90,5 +81,18 @@ library_page = html.Div([
         page_current= 0,
         page_size=20,
         css=[{'selector': '.row', 'rule': 'margin: 0'}]
+    ),
+    dbc.Modal(
+        [
+            dbc.ModalHeader("Author", id="library-modal-header"),
+            dbc.ModalBody(
+                "Author Description", id="library-modal-body"
+            )
+        ],
+        id="library-modal",
+        is_open=False,
+        backdrop=True,
+        size="lg",
+        scrollable=False
     ),
 ], id="library-page")
