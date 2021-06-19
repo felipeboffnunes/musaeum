@@ -3,7 +3,7 @@ import sqlite3
 # Third party imports
 import pandas
 
-TARGET = "ACT"
+TARGET = "EXE"
 
 NAME = {
     "LIB" : "library",
