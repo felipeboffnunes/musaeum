@@ -1,5 +1,4 @@
 from typing import List, Dict, Union
-
 import sqlite3
 import datetime
 
@@ -9,6 +8,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
 import plotly.express as px
+
 
 class LogBook_Handler():
     
@@ -42,6 +42,10 @@ class LogBook_Handler():
         "ACT" : {
             "name": "activities",
             "individual": "activity"
+        },
+        "STU": {
+            "name": "studies",
+            "individual": "study"
         }
     }
     
@@ -83,17 +87,7 @@ class LogBook_Handler():
                     self._data(day, "ACT"),
                     html.Hr(),
                     html.H4(["Studies", html.Img(src="./assets/images/icons/information-outline.svg", id="STUINFO", className="info-icon")]),
-                    html.Div([
-                        dbc.Row([
-                            dbc.Col([
-                                html.Img(src="./assets/images/icons/book.svg", className="study-icon"),
-                            ], width="auto"),
-                            dbc.Col([
-                                html.H3("Read 50 pages", className="study-header"),
-                                html.P("2 hours", className="study-details")
-                            ], width=9)
-                        ], className="study-row")
-                    ], id="studies-col")
+                    self._data(day, "STU")
                 ], width = 4),
                 dbc.Col([
                     dbc.Row([
@@ -361,11 +355,51 @@ class LogBook_Handler():
                 
             return dcc.Graph(figure=fig, config={'displayModeBar': False})
         
+        def graphs_activities():
+            day = self._date_str_to_day(date_str)
+
+            df = self._get_df(category, day, True, 4)
+            
+            df = df.iloc[:,1:]
+            
+            
+            calendar_col_icons = [dbc.Col(className = "heatmap-act-icon")]
+            for col in df.columns:
+                if col in self.ICONS:
+                    icon_col = dbc.Col(html.Img(src=self.ICONS[col], className = "heatmap-act-icon"))
+                    calendar_col_icons.append(icon_col)
+                    
+            calendar_header = [dbc.Row(calendar_col_icons)]
+            
+            calendar_data = []
+            for i, row in df.iterrows():
+                
+                calendar_row_data = []
+                for col in row:
+
+                    if col < 1:
+                        col_data = dbc.Col(html.Br(), className = f"heatmap-day heatmap-{0}")
+                    elif col < 10:
+                        col_data = dbc.Col(html.Br(), className = f"heatmap-day heatmap-{2}")
+                    else:
+                        col_data = dbc.Col(html.P(col), className = "heatmap-day-act")
+                        
+                    calendar_row_data.append(col_data)
+                    
+                calendar_row = dbc.Row(calendar_row_data)
+                calendar_data.append(calendar_row)
+            
+            calendar_header.extend(calendar_data)
+            
+            calendar_heatmap = dbc.Col(calendar_header, className = "heatmap-weeks")
+            return calendar_heatmap
+            
+        
         if category == "EXE":
             return graphs_exercise()
         elif category == "NUT":
             return graphs_nutrition()
         elif category == "ACT":
-            return "HELLOACT"
+            return graphs_activities()
         elif category == "STU":
             return "HELLOSTU"

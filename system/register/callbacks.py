@@ -136,7 +136,6 @@ def register_callbacks(app):
      Input("library-datatable", "derived_viewport_data")]
     )
     def update_library_modal(active_cell, data):
-        print(active_cell)
         if active_cell is None:
             return [dash.no_update, dash.no_update, dash.no_update]
         if active_cell["column"] == 1:
