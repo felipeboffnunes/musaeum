@@ -56,7 +56,7 @@ logbook_page = html.Div([html.Div(lg_handler.consume_data("2021-06-04"), id="log
                             id="logbook-exe-modal",
                             is_open=False,
                             backdrop=True,
-                            size="lg",
+                            size="xl",
                             scrollable=False
                         )
                     ])

@@ -280,8 +280,40 @@ class LogBook_Handler():
         day = self._date_str_to_day(date_str)
         
         df = self._get_df(category, day, True, 5)
-        df = df.melt(id_vars=["index","Day"])
         
-        fig = px.line(df, x="Day", y="value", color="variable")
+        
+        training_1 = pd.concat([df.iloc[:, 1],df.iloc[:, 2:9]], axis=1)
+        training_1["Train"]=1
+        
+        training_2 = pd.concat([df.iloc[:, 1],df.iloc[:, 9:15]], axis=1)
+        training_2["Train"]=2
+        
+        training_3 = pd.concat([df.iloc[:, 1],df.iloc[:, 15:22]], axis=1)
+        training_3["Train"]=3
+        
+        training_4 = pd.concat([df.iloc[:, 1],df.iloc[:, 22:]], axis=1)
+        training_4["Train"]=4
+        
+        training = pd.concat([training_1,training_2,training_3,training_4])
+        training = training.melt(id_vars=["Train", "Day"])
+        
+        fig = px.line(training, x="Day", y="value", color="variable", facet_row="Train", labels=dict(value=""))
 
-        return dcc.Graph(figure=fig)
+        legend_layout = dict(
+            orientation="h",
+            title="",
+            font=dict(
+                size=10,
+                color="black"
+            ),
+            yanchor="bottom",
+            y=-0.5,
+            xanchor="right",
+            x=1
+        )
+        
+        fig.update_layout(legend=legend_layout)
+        for anno in fig['layout']['annotations']:
+            anno['text']=''
+               
+        return dcc.Graph(figure=fig, config={'displayModeBar': False})
