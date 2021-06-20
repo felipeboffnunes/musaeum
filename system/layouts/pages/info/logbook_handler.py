@@ -7,7 +7,8 @@ import pandas as pd
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-
+import plotly.graph_objects as go
+import plotly.express as px
 
 class LogBook_Handler():
     
@@ -68,7 +69,7 @@ class LogBook_Handler():
                     dcc.DatePickerSingle(
                         date=self._date_str_to_date(date_str),
                         min_date_allowed=datetime.date(2021, 6, 4),
-                        max_date_allowed=datetime.date(2021, 6, 12),
+                        max_date_allowed=datetime.date(2021, 6, 19),
                         id='day-picker'
                     )
                 ], width = 2, id="header-days"),
@@ -78,10 +79,10 @@ class LogBook_Handler():
             html.Hr(),
             dbc.Row([
                 dbc.Col([
-                    html.H4("Activities"),
+                    html.H4(["Activities", html.Img(src="./assets/images/icons/information-outline.svg", id="ACTINFO", className="info-icon")]),
                     self._data(day, "ACT"),
                     html.Hr(),
-                    html.H4("Studies"),
+                    html.H4(["Studies", html.Img(src="./assets/images/icons/information-outline.svg", id="STUINFO", className="info-icon")]),
                     html.Div([
                         dbc.Row([
                             dbc.Col([
@@ -103,7 +104,7 @@ class LogBook_Handler():
                     ])
                 ],id="vitruvian-col", width = 4),
                 dbc.Col([
-                    html.H4("Nutrition"),
+                    html.H4(["Nutrition", html.Img(src="./assets/images/icons/information-outline.svg", id="NUTINFO", className="info-icon")]),
                     dbc.Row([
                         dbc.Col([
                             dbc.Row([
@@ -117,7 +118,7 @@ class LogBook_Handler():
                         ])
                     ]),
                     html.Hr(),
-                    html.H4("Exercises"),
+                    html.H4(["Exercises", html.Img(src="./assets/images/icons/information-outline.svg", id="EXEINFO", className="info-icon")]),
                     dbc.Row([
                         dbc.Col([
                             dbc.Row([
@@ -145,17 +146,21 @@ class LogBook_Handler():
         date_ = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
         return date_
 
-    def _data(self, day:int, type_:str) -> Union[dbc.Row, html.Div]: 
+    def _get_df(self, type_:str, day:int, rangex: bool = False, range_n:int = 0) -> pd.DataFrame:
+        conn = sqlite3.connect(f"{self.PATH}{self.TYPE[type_]['name']}.db")
+        df = pd.read_sql_query(f"SELECT * from {self.TYPE[type_]['name']}", conn)
         
-        def __get_df(type_:str) -> pd.DataFrame:
-            conn = sqlite3.connect(f"{self.PATH}{self.TYPE[type_]['name']}.db")
-            df = pd.read_sql_query(f"SELECT * from {self.TYPE[type_]['name']}", conn)
-            
-            conn.close()
-            
+        conn.close()
+        if rangex:
+            df = df[df["Day"] <= day+range_n].reset_index(drop=True)
+            df = df[df["Day"] >= day-range_n].reset_index(drop=True)
+        else: 
             df = df[df["Day"] == day].reset_index(drop=True)
-            
-            return df
+        
+        
+        return df
+
+    def _data(self, day:int, type_:str) -> Union[dbc.Row, html.Div]: 
         
         def __health() -> list:
             day_first_rows = []
@@ -194,7 +199,7 @@ class LogBook_Handler():
                     rows.append(row)
             return rows
         
-        df = __get_df(type_)
+        df = self._get_df(type_, day)
         
         health = ["NUT", "EXE"]
         tasks = ["ACT", "STU"]
@@ -271,3 +276,51 @@ class LogBook_Handler():
         
         return calendar_heatmap
     
+    def graphs(self, date_str:str, category:str):
+        if category == "EXE":
+            day = self._date_str_to_day(date_str)
+
+            df = self._get_df(category, day, True, 2)
+            
+            
+            training_1 = pd.concat([df.iloc[:, 1],df.iloc[:, 2:9]], axis=1)
+            training_1["Train"]=1
+            
+            training_2 = pd.concat([df.iloc[:, 1],df.iloc[:, 9:15]], axis=1)
+            training_2["Train"]=2
+            
+            training_3 = pd.concat([df.iloc[:, 1],df.iloc[:, 15:22]], axis=1)
+            training_3["Train"]=3
+            
+            training_4 = pd.concat([df.iloc[:, 1],df.iloc[:, 22:]], axis=1)
+            training_4["Train"]=4
+            
+            training = pd.concat([training_1,training_2,training_3,training_4])
+            training = training.melt(id_vars=["Train", "Day"])
+            
+            fig = px.line(training, x="Day", y="value", color="variable", facet_row="Train", labels=dict(value=""))
+
+            legend_layout = dict(
+                orientation="h",
+                title="",
+                font=dict(
+                    size=10,
+                    color="black"
+                ),
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="right",
+                x=1
+            )
+            
+            fig.update_layout(legend=legend_layout)
+            for anno in fig['layout']['annotations']:
+                anno['text']=''
+                
+            return dcc.Graph(figure=fig, config={'displayModeBar': False})
+        elif category == "NUT":
+            return "HELLONUT"
+        elif category == "ACT":
+            return "HELLOACT"
+        elif category == "STU":
+            return "HELLOSTU"

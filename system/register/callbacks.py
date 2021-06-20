@@ -72,6 +72,59 @@ def register_callbacks(app):
     def update_health(date_str):
         lg_handler = LogBook_Handler()
         return lg_handler.consume_data(date_str)
+    #
+    # Logbook Modal
+    #
+    @app.callback(
+    [Output("logbook-act-modal", "is_open"),
+     Output("logbook-act-modal-body", "children"),
+     Output("logbook-act-modal-header", "children")],
+    Input("ACTINFO", "n_clicks"),
+    State("day-picker", "date")
+    )
+    def open_activities_modal(act_clicks, date_str):
+        if act_clicks:
+            lg_handler = LogBook_Handler()
+            return [True, lg_handler.graphs(date_str, "ACT"), "ACTION"]
+        return [dash.no_update, dash.no_update, dash.no_update]
+    #
+    @app.callback(
+    [Output("logbook-stu-modal", "is_open"),
+     Output("logbook-stu-modal-body", "children"),
+     Output("logbook-stu-modal-header", "children")],
+    Input("STUINFO", "n_clicks"),
+    State("day-picker", "date")
+    )
+    def open_studies_modal(stu_clicks, date_str):
+        if stu_clicks:
+            return [True, "STUINFO", "STUINFO-yes"]
+        return [dash.no_update, dash.no_update, dash.no_update]
+    #
+    @app.callback(
+    [Output("logbook-nut-modal", "is_open"),
+     Output("logbook-nut-modal-body", "children"),
+     Output("logbook-nut-modal-header", "children")],
+    Input("NUTINFO", "n_clicks"),
+    State("day-picker", "date")
+    )
+    def open_nutrition_modal(nut_clicks, date_str):
+        if nut_clicks:
+            lg_handler = LogBook_Handler()
+            return [True, lg_handler.graphs(date_str, "NUT"), "Nutrition"]
+        return [dash.no_update, dash.no_update, dash.no_update]
+    #
+    @app.callback(
+    [Output("logbook-exe-modal", "is_open"),
+     Output("logbook-exe-modal-body", "children"),
+     Output("logbook-exe-modal-header", "children")],
+    Input("EXEINFO", "n_clicks"),
+    State("day-picker", "date")
+    )
+    def open_exercises_modal(exe_clicks, date_str):
+        if exe_clicks:
+            lg_handler = LogBook_Handler()
+            return [True, lg_handler.graphs(date_str, "EXE"), "Exercises"]
+        return [dash.no_update, dash.no_update, dash.no_update]
     
     # Library
     #

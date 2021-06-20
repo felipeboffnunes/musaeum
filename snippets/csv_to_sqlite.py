@@ -1,16 +1,16 @@
-# Python Standard Library
 import sqlite3
-# Third party imports
+
 import pandas
 
-TARGET = "ACT"
+TARGET = "EXE"
 
 NAME = {
     "LIB" : "library",
     "NUT" : "nutrition",
     "EXE" : "exercises",
     "LOG" : "small_log",
-    "ACT" : "activities" 
+    "ACT" : "activities",
+    "STU" : "studies"
 }
 
 CSV_PATH = f"../system/data/csv/{NAME[TARGET]}.csv"
