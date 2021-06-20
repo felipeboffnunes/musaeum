@@ -314,6 +314,9 @@ class LogBook_Handler():
             )
             
             fig.update_layout(legend=legend_layout)
+            
+            fig.update_yaxes(rangemode="tozero")
+            
             for anno in fig['layout']['annotations']:
                 anno['text']=''
                 
