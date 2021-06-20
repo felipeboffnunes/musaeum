@@ -69,7 +69,7 @@ class LogBook_Handler():
                     dcc.DatePickerSingle(
                         date=self._date_str_to_date(date_str),
                         min_date_allowed=datetime.date(2021, 6, 4),
-                        max_date_allowed=datetime.date(2021, 6, 12),
+                        max_date_allowed=datetime.date(2021, 6, 19),
                         id='day-picker'
                     )
                 ], width = 2, id="header-days"),
@@ -152,10 +152,10 @@ class LogBook_Handler():
         
         conn.close()
         if rangex:
-            df[df["Day"] <= day+range_n].reset_index(drop=True, inplace=True)
-            df[df["Day"] >= day-range_n].reset_index(drop=True, inplace=True)
+            df = df[df["Day"] <= day+range_n].reset_index(drop=True)
+            df = df[df["Day"] >= day-range_n].reset_index(drop=True)
         else: 
-            df[df["Day"] == day].reset_index(drop=True, inplace=True)
+            df = df[df["Day"] == day].reset_index(drop=True)
         
         
         return df
@@ -277,43 +277,50 @@ class LogBook_Handler():
         return calendar_heatmap
     
     def graphs(self, date_str:str, category:str):
-        day = self._date_str_to_day(date_str)
-        
-        df = self._get_df(category, day, True, 5)
-        
-        
-        training_1 = pd.concat([df.iloc[:, 1],df.iloc[:, 2:9]], axis=1)
-        training_1["Train"]=1
-        
-        training_2 = pd.concat([df.iloc[:, 1],df.iloc[:, 9:15]], axis=1)
-        training_2["Train"]=2
-        
-        training_3 = pd.concat([df.iloc[:, 1],df.iloc[:, 15:22]], axis=1)
-        training_3["Train"]=3
-        
-        training_4 = pd.concat([df.iloc[:, 1],df.iloc[:, 22:]], axis=1)
-        training_4["Train"]=4
-        
-        training = pd.concat([training_1,training_2,training_3,training_4])
-        training = training.melt(id_vars=["Train", "Day"])
-        
-        fig = px.line(training, x="Day", y="value", color="variable", facet_row="Train", labels=dict(value=""))
+        if category == "EXE":
+            day = self._date_str_to_day(date_str)
 
-        legend_layout = dict(
-            orientation="h",
-            title="",
-            font=dict(
-                size=10,
-                color="black"
-            ),
-            yanchor="bottom",
-            y=-0.5,
-            xanchor="right",
-            x=1
-        )
-        
-        fig.update_layout(legend=legend_layout)
-        for anno in fig['layout']['annotations']:
-            anno['text']=''
-               
-        return dcc.Graph(figure=fig, config={'displayModeBar': False})
+            df = self._get_df(category, day, True, 2)
+            
+            
+            training_1 = pd.concat([df.iloc[:, 1],df.iloc[:, 2:9]], axis=1)
+            training_1["Train"]=1
+            
+            training_2 = pd.concat([df.iloc[:, 1],df.iloc[:, 9:15]], axis=1)
+            training_2["Train"]=2
+            
+            training_3 = pd.concat([df.iloc[:, 1],df.iloc[:, 15:22]], axis=1)
+            training_3["Train"]=3
+            
+            training_4 = pd.concat([df.iloc[:, 1],df.iloc[:, 22:]], axis=1)
+            training_4["Train"]=4
+            
+            training = pd.concat([training_1,training_2,training_3,training_4])
+            training = training.melt(id_vars=["Train", "Day"])
+            
+            fig = px.line(training, x="Day", y="value", color="variable", facet_row="Train", labels=dict(value=""))
+
+            legend_layout = dict(
+                orientation="h",
+                title="",
+                font=dict(
+                    size=10,
+                    color="black"
+                ),
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="right",
+                x=1
+            )
+            
+            fig.update_layout(legend=legend_layout)
+            for anno in fig['layout']['annotations']:
+                anno['text']=''
+                
+            return dcc.Graph(figure=fig, config={'displayModeBar': False})
+        elif category == "NUT":
+            return "HELLONUT"
+        elif category == "ACT":
+            return "HELLOACT"
+        elif category == "STU":
+            return "HELLOSTU"

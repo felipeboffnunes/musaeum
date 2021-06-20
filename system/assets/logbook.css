@@ -29,16 +29,6 @@
     width: 1.5rem;
 }
 
-.graph {
-    height: 25vh;
-    width: 100%;
-}
-
-.graph-row {
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
 /* ACTIVITIES */
 
 .activity-row {

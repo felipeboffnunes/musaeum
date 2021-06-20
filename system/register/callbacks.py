@@ -109,7 +109,8 @@ def register_callbacks(app):
     )
     def open_nutrition_modal(nut_clicks, date_str):
         if nut_clicks:
-            return [True, "NUTINFO", "NUTINFO-yes"]
+            lg_handler = LogBook_Handler()
+            return [True, lg_handler.graphs(date_str, "NUT"), "Nutrition"]
         return [dash.no_update, dash.no_update, dash.no_update]
     #
     @app.callback(
@@ -122,7 +123,7 @@ def register_callbacks(app):
     def open_exercises_modal(exe_clicks, date_str):
         if exe_clicks:
             lg_handler = LogBook_Handler()
-            return [True, lg_handler.graphs(date_str, "EXE"), "EXER"]
+            return [True, lg_handler.graphs(date_str, "EXE"), "Exercises"]
         return [dash.no_update, dash.no_update, dash.no_update]
     
     # Library
