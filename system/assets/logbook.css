@@ -45,6 +45,10 @@
     margin-left: 1rem !important;
 }
 
+.ACT-icon {
+    text-align: center;
+}
+
 .activity-header {
     margin: 0 !important;
     padding: 0 !important;
@@ -131,4 +135,20 @@
 .heatmap-day-week {
     border: 1px solid rgba(0,0,0,0);
     font-size: 10px;
+}
+
+.heatmap-day-act {
+    padding: 0;
+    padding-top: 0.5rem;
+    margin: 0 !important;
+    text-align: center;
+}
+
+.heatmap-act-icon {
+    min-height: 100% !important;
+    text-align: center;
+    padding: 0;
+    padding-left: 0.9rem;
+    padding-bottom: 0.6rem;
+    margin: 0 !important;
 }

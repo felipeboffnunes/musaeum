@@ -1,5 +1,4 @@
 from typing import List, Dict, Union
-
 import sqlite3
 import datetime
 
@@ -9,6 +8,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
 import plotly.express as px
+
 
 class LogBook_Handler():
     
@@ -42,6 +42,10 @@ class LogBook_Handler():
         "ACT" : {
             "name": "activities",
             "individual": "activity"
+        },
+        "STU": {
+            "name": "studies",
+            "individual": "study"
         }
     }
     
@@ -83,17 +87,7 @@ class LogBook_Handler():
                     self._data(day, "ACT"),
                     html.Hr(),
                     html.H4(["Studies", html.Img(src="./assets/images/icons/information-outline.svg", id="STUINFO", className="info-icon")]),
-                    html.Div([
-                        dbc.Row([
-                            dbc.Col([
-                                html.Img(src="./assets/images/icons/book.svg", className="study-icon"),
-                            ], width="auto"),
-                            dbc.Col([
-                                html.H3("Read 50 pages", className="study-header"),
-                                html.P("2 hours", className="study-details")
-                            ], width=9)
-                        ], className="study-row")
-                    ], id="studies-col")
+                    self._data(day, "STU")
                 ], width = 4),
                 dbc.Col([
                     dbc.Row([
@@ -121,13 +115,6 @@ class LogBook_Handler():
                     html.H4(["Exercises", html.Img(src="./assets/images/icons/information-outline.svg", id="EXEINFO", className="info-icon")]),
                     dbc.Row([
                         dbc.Col([
-                            dbc.Row([
-                                dbc.Col(html.H3("2150", id="basal=calories-n"), width=2),
-                                dbc.Col(html.P("calories burned", id="nutrition-calories-burned")),
-                            ]),
-                            dbc.Row([
-                                dbc.Col(dbc.Progress(value=91, id="exercise-calories-progress"))
-                            ]),
                             self._data(day, "EXE")
                         ])
                     ])
@@ -157,7 +144,6 @@ class LogBook_Handler():
         else: 
             df = df[df["Day"] == day].reset_index(drop=True)
         
-        
         return df
 
     def _data(self, day:int, type_:str) -> Union[dbc.Row, html.Div]: 
@@ -173,7 +159,10 @@ class LogBook_Handler():
                     elif idx in self.TYPE[type_]["second_row"]:
                         day_second_rows.append(row)
         
-            col = [dbc.Col(day_first_rows, width= {"size": 5, "offset": 1}), dbc.Col(day_second_rows, width={"size": 5})]
+            if day_first_rows or day_second_rows:
+                col = [dbc.Col(day_first_rows, width= {"size": 5, "offset": 1}), dbc.Col(day_second_rows, width={"size": 5})]
+            else:
+                col = [dbc.Col("No info.")]
             return col
             
         def __tasks() -> list:
@@ -197,10 +186,13 @@ class LogBook_Handler():
                             , width=9)
                     ], className=f"{self.TYPE[type_]['individual']}-row")
                     rows.append(row)
-            return rows
+            if rows:        
+                return rows
+            else:
+                return ["No info."]
         
         df = self._get_df(type_, day)
-        
+
         health = ["NUT", "EXE"]
         tasks = ["ACT", "STU"]
         
@@ -277,11 +269,12 @@ class LogBook_Handler():
         return calendar_heatmap
     
     def graphs(self, date_str:str, category:str):
-        if category == "EXE":
+        
+        
+        def graphs_exercise():
             day = self._date_str_to_day(date_str)
 
-            df = self._get_df(category, day, True, 2)
-            
+            df = self._get_df(category, day, True, 4)
             
             training_1 = pd.concat([df.iloc[:, 1],df.iloc[:, 2:9]], axis=1)
             training_1["Train"]=1
@@ -314,13 +307,99 @@ class LogBook_Handler():
             )
             
             fig.update_layout(legend=legend_layout)
+            
+            fig.update_xaxes(dtick=1)
+            fig.update_yaxes(rangemode="tozero")
+            
             for anno in fig['layout']['annotations']:
                 anno['text']=''
                 
             return dcc.Graph(figure=fig, config={'displayModeBar': False})
+        
+        def graphs_nutrition():
+            day = self._date_str_to_day(date_str)
+
+            df = self._get_df(category, day, True, 4)
+            
+            gram_nutrition = pd.concat([df.iloc[:, 1],df.iloc[:, 2:5], df.iloc[:, 9]], axis=1)
+            gram_nutrition["Type"]="gram"
+            
+            unitary_nutrition = pd.concat([df.iloc[:, 1],df.iloc[:, 5:9], df.iloc[:, 10:]], axis=1)
+            unitary_nutrition["Type"]="unit"
+            
+            nutrition = pd.concat([gram_nutrition,unitary_nutrition])
+            nutrition = nutrition.melt(id_vars=["Type", "Day"])
+        
+            fig = px.line(nutrition, x="Day", y="value", color="variable", facet_row="Type", labels=dict(value=""))
+        
+            legend_layout = dict(
+                orientation="h",
+                title="",
+                font=dict(
+                    size=10,
+                    color="black"
+                ),
+                yanchor="bottom",
+                y=-0.5,
+                xanchor="right",
+                x=1
+            )
+            
+            fig.update_layout(legend=legend_layout)
+            
+            fig.update_xaxes(dtick=1)
+            fig.update_yaxes(rangemode="tozero")
+            
+            for anno in fig['layout']['annotations']:
+                anno['text']=''
+                
+            return dcc.Graph(figure=fig, config={'displayModeBar': False})
+        
+        def graphs_activities():
+            day = self._date_str_to_day(date_str)
+
+            df = self._get_df(category, day, True, 4)
+            
+            df = df.iloc[:,1:]
+            
+            
+            calendar_col_icons = [dbc.Col(className = "heatmap-act-icon")]
+            for col in df.columns:
+                if col in self.ICONS:
+                    icon_col = dbc.Col(html.Img(src=self.ICONS[col], className = "heatmap-act-icon"))
+                    calendar_col_icons.append(icon_col)
+                    
+            calendar_header = [dbc.Row(calendar_col_icons)]
+            
+            calendar_data = []
+            for i, row in df.iterrows():
+                
+                calendar_row_data = []
+                for col in row:
+
+                    if col < 1:
+                        col_data = dbc.Col(html.Br(), className = f"heatmap-day heatmap-{0}")
+                    elif col < 10:
+                        col_data = dbc.Col(html.Br(), className = f"heatmap-day heatmap-{2}")
+                    else:
+                        col_data = dbc.Col(html.P(col), className = "heatmap-day-act")
+                        
+                    calendar_row_data.append(col_data)
+                    
+                calendar_row = dbc.Row(calendar_row_data)
+                calendar_data.append(calendar_row)
+            
+            calendar_header.extend(calendar_data)
+            
+            calendar_heatmap = dbc.Col(calendar_header, className = "heatmap-weeks")
+            return calendar_heatmap
+            
+        
+        if category == "EXE":
+            return graphs_exercise()
         elif category == "NUT":
-            return "HELLONUT"
+            return graphs_nutrition()
         elif category == "ACT":
-            return "HELLOACT"
+            return graphs_activities()
         elif category == "STU":
             return "HELLOSTU"
