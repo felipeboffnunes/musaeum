@@ -10,6 +10,10 @@
     padding-bottom: 1rem;
 }
 
+.writing-card {
+    min-height: 100% !important;
+}
+
 .poetry-card-header {
     text-align: center;
     font-weight: bold;

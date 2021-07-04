@@ -2,7 +2,7 @@ import sqlite3
 
 import pandas
 
-TARGET = "EXE"
+TARGET = "LIB"
 
 NAME = {
     "LIB" : "library",
