@@ -17,6 +17,6 @@ writing_page = html.Div([
                 ]
             ),
             dbc.CardFooter(p["date"], className="poetry-card-footer"),
-        ]), className="writing-page-col", width="auto") for p in poetry
+        ], className="writing-card"), className="writing-page-col", width="auto") for p in poetry
     ])
 ], id="writing-page-div")

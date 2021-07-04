@@ -18,6 +18,8 @@ library_page = html.Div([
         style_table={
         'overflowY': 'auto',
         'overflowX': 'hidden',
+        "width": "100vw",
+        "minWidth": "100vw",
         "height": "90vh", 
         "maxHeight": "90vh"
         },
@@ -78,7 +80,7 @@ library_page = html.Div([
         selected_rows=[],
         page_action="native",
         page_current= 0,
-        page_size=20,
+        page_size=30,
         css=[{'selector': '.row', 'rule': 'margin: 0'}]
     ),
     dbc.Modal(
