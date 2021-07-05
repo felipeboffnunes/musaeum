@@ -1,0 +1,39 @@
+#about-page {
+    height: 100vh;
+}
+
+#about-paragraph {
+    text-align: justify;
+}
+
+#about-right {
+    border: 1px solid black;
+    height: 100vh;
+}
+
+#about-left {
+    border: 1px solid black;
+    height: 100vh;
+}
+
+
+#moral-about {
+    margin-right: 0;
+}
+
+#member-icon {
+    border-radius: 100%;
+    border: 2px solid black;
+}
+
+#member-row {
+    padding-top: 2rem;
+}
+
+#team-header {
+    padding-left: 2rem;
+}
+
+#about-content{
+    padding-top:2rem;
+}
