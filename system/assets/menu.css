@@ -122,7 +122,6 @@
     /* set margins of the main content so that it doesn't overlap the sidebar */
     #page-content {
         margin-left: 12rem;
-        margin-right: 2rem;
         transition: margin-left 0.3s ease-in-out;
     }
 }
