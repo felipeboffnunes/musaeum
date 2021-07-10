@@ -1,5 +1,6 @@
 #about-page {
     height: 100vh;
+    padding:0;
 }
 
 #about-paragraph {
@@ -35,5 +36,9 @@
 }
 
 #about-content{
+    padding-top:2rem;
+}
+
+#management-content{
     padding-top:2rem;
 }
