@@ -80,7 +80,7 @@ library_page = html.Div([
         selected_rows=[],
         page_action="native",
         page_current= 0,
-        page_size=30,
+        page_size=25,
         css=[{'selector': '.row', 'rule': 'margin: 0'}]
     ),
     dbc.Modal(
