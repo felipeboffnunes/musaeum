@@ -5,6 +5,7 @@
 
 #about-paragraph {
     text-align: justify;
+    font-size: 12px;
 }
 
 #about-right {
@@ -22,9 +23,14 @@
     margin-right: 0;
 }
 
+#member-col{
+    padding-right: 0 !important;
+}
+
 #member-icon {
     border-radius: 100%;
     border: 2px solid black;
+    width: 80%;
 }
 
 #member-row {

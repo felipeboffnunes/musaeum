@@ -55,12 +55,14 @@ def get_sidebar(collapse: bool = False):
                 dbc.Nav(
                     [
                         dbc.NavLink("Home", href="/home", active="exact"),
+                        dbc.NavLink("Research", href="/research", active="exact", disabled=True),
                         dbc.NavLink("About", href="/about", active="exact"),
-                        dbc.NavLink("Wiki", href="https://wiki.musaeum.university")
                     ],
                     vertical=True,
                     pills=True,
                 ),
+                html.Hr(id="line-logo"),
+                dbc.NavLink("Wiki", href="https://wiki.musaeum.university", disabled=True),
                 html.Div([
                     html.Hr(id="line-logo"),
                     dbc.Col(html.P("Pyrrhic Buddha", id="pyrrhic-header")),
