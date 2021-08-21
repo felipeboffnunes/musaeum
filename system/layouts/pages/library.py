@@ -6,8 +6,6 @@ import dash_html_components as html
 import dash_table
 import pandas as pd
 
-from system.layouts.pages.info.library_info import authors
-
 conn = sqlite3.connect("system/data/sqlite/library.db")
 library_df = pd.read_sql_query("SELECT * from library", conn)
 
@@ -18,41 +16,47 @@ library_page = html.Div([
         style_table={
         'overflowY': 'auto',
         'overflowX': 'hidden',
-        "width": "100vw",
-        "minWidth": "100vw",
+        "width": "90vw",
+        "minWidth": "90vw",
         "height": "90vh", 
         "maxHeight": "90vh"
         },
         style_cell={
         'whiteSpace': 'normal',
-        'border': '1px solid grey' 
+        'border': '1px solid grey',
+        'fontSize': 12,
         },
         style_cell_conditional=[
         {'if': {'column_id': 'index'},
-         'width': '6%',
+         'width': '4%',
          'textAlign': 'center'},
         {'if': {'column_id': 'Author'},
-         'textAlign': 'left'},
+         'textAlign': 'left',
+         'width': '10%'},
         {'if': {'column_id': 'Title'},
-         'textAlign': 'left'},
+         'textAlign': 'left',
+         'width': '10%'},
         {'if': {'column_id': 'Pages'},
-         'width': '6%',
+         'width': '4%',
          'textAlign': 'center'},
         {'if': {'column_id': 'Publisher'},
-         'width': '10%',
+         'width': '6%',
          'textAlign': 'center'},
         {'if': {'column_id': 'Language'},
-         'width': '8%',
+         'width': '4%',
          'textAlign': 'center'},
         {'if': {'column_id': 'ISBN-13'},
-         'textAlign': 'center'},
+         'textAlign': 'center',
+         'width': '6%',},
         {'if': {'column_id': 'Genre 1'},
-         'width': '10%',
+         'width': '6%',
          'textAlign': 'center'},
         {'if': {'column_id': 'Genre 2'},
-         'textAlign': 'center'},
+         'textAlign': 'center',
+         'width': '7%'},
         {'if': {'column_id': 'Genre 3'},
-         'textAlign': 'center'},
+         'textAlign': 'center',
+         'width': '7%'},
         {'if': {'column_id': 'Review'},
          'width': '6%',
          'textAlign': 'center'},
@@ -80,7 +84,7 @@ library_page = html.Div([
         selected_rows=[],
         page_action="native",
         page_current= 0,
-        page_size=25,
+        page_size=20,
         css=[{'selector': '.row', 'rule': 'margin: 0'}]
     ),
     dbc.Modal(
