@@ -2,7 +2,7 @@ import sqlite3
 
 import pandas
 
-TARGET = "LIB"
+TARGET = "STU"
 
 NAME = {
     "LIB" : "library",
